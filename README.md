@@ -18,25 +18,24 @@ LexGen is a legal document generation model fine-tuned using LoRA on top of the 
 
 ## 🚀 Usage
 
+After cloning this repository and installing dependencies, you can use the adapter with Mistral-7B as follows:
+
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
 import torch
 
-# 1) Load base model & tokenizer
-model_name = "mistralai/Mistral-7B-v0.1"
+# Load base Mistral model and tokenizer
+base_model_name = "mistralai/Mistral-7B-v0.1"
 base_model = AutoModelForCausalLM.from_pretrained(
-    model_name,
+    base_model_name,
     device_map="auto",
     torch_dtype=torch.float16
 )
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+tokenizer = AutoTokenizer.from_pretrained(base_model_name)
 
-# 2) Load your LoRA adapter
-
-adapter_path = "/adapter"
-
-
+# Load the LoRA adapter from the checkpoint folder
+adapter_path = "./checkpoint-200"  # Relative to cloned repo
 model = PeftModel.from_pretrained(
     base_model,
     adapter_path,
@@ -45,7 +44,7 @@ model = PeftModel.from_pretrained(
 )
 model.eval()
 
-# 3) Generate a board resolution
+# Inference example
 instruction = "Generate a board resolution for appointing a new director."
 user_input = (
     "Company Name: Aretoss Pvt Ltd\n"
@@ -62,4 +61,5 @@ outputs = model.generate(
     top_p=0.9,
     do_sample=True
 )
-print(tokenizer.decode(outputs[0][ inputs.input_ids.shape[-1] : ], skip_special_tokens=True))
+
+print(tokenizer.decode(outputs[0][inputs.input_ids.shape[-1]:], skip_special_tokens=True))
