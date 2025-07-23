@@ -33,12 +33,9 @@ base_model = AutoModelForCausalLM.from_pretrained(
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 # 2) Load your LoRA adapter
-# If you’ve pushed to Hugging Face hub under aretoss/LexGen-Mistral-LoRA:
-# adapter_path = "aretoss/LexGen-Mistral-LoRA"
-#
-# Or if you’re loading locally from checkpoint-200:
-# adapter_path = "/path/to/checkpoint-200"
-adapter_path = "aretoss/LexGen-Mistral-LoRA"
+
+adapter_path = "/adapter"
+
 
 model = PeftModel.from_pretrained(
     base_model,
