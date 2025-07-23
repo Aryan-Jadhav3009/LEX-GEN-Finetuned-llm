@@ -12,7 +12,7 @@ LexGen is a legal document generation model fine-tuned using LoRA on top of the 
 ## 🧠 Training Overview
 
 - **Dataset**: Custom dataset of board resolution templates and field-conditioned examples
-- **Epochs**: 200
+- **Training Steps**: 200 (overriding 50 epochs)
 - **GPU**: T4 (Google Colab)
 - **Output**: LoRA adapter weights (`adapter_model.safetensors`) and config (`adapter_config.json`)
 
